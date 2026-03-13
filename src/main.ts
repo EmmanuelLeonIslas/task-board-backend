@@ -2,7 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 
-require('node:dns/promises').setServers(['1.1.1.1', '8.8.8.8']);
+// Solo aplicar DNS en desarrollo local
+if (process.env.NODE_ENV !== "production") {
+  try {
+    require('node:dns/promises').setServers(['1.1.1.1', '8.8.8.8']);
+  } catch(error) {
+    console.log("DNS fix not needed in production");
+  }
+}
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,7 +27,7 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT || 3000);
 }
 
 bootstrap();
