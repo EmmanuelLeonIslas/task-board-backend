@@ -97,4 +97,25 @@ describe('TasksController', () => {
       expect(service.create).toHaveBeenCalledWith(createTaskDto);
     });
   });
+
+  describe('update', () => {
+    it('should update and return a task', async () => {
+      const taskId = '507f1f77bcf86cd799439011';
+      const updatedTaskDto = { status: 'completed' };
+      const mockUpdatedTask = {
+        _id: taskId,
+        title: 'Test Task',
+        status: 'pending',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      mockTasksService.update.mockResolvedValue(mockUpdatedTask);
+
+      const result = await controller.update(taskId, updatedTaskDto);
+
+      expect(result).toEqual(mockUpdatedTask);
+      expect(service.update).toHaveBeenCalledWith(taskId, updatedTaskDto);
+    });
+  });
 });
