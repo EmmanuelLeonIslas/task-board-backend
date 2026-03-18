@@ -7,7 +7,7 @@ import { Task } from './schemas/task.schema';
 describe('TasksService', () => {
   let service: TasksService;
   let model: Model<Task>;
-  
+
   const mockTaskModel = {
     new: jest.fn(),
     constructor: jest.fn(),
@@ -44,11 +44,11 @@ describe('TasksService', () => {
       const mockTasks = [
         {
           _id: '507f1f77bcf86cd799439011',
-          title: 'Test task',
+          title: 'Test Task',
           status: 'pending',
-          createdAt: new Date(),         
-          updatedAt: new Date(),         
-        }
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
 
       jest.spyOn(model, 'find').mockReturnValue({
@@ -66,10 +66,10 @@ describe('TasksService', () => {
     it('should return a single task', async () => {
       const mockTask = {
         _id: '507f1f77bcf86cd799439011',
-        title: 'Test task',
+        title: 'Test Task',
         status: 'pending',
-        createdAt: new Date(),         
-        updatedAt: new Date(),         
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
 
       jest.spyOn(model, 'findById').mockReturnValue({
@@ -80,6 +80,66 @@ describe('TasksService', () => {
 
       expect(result).toEqual(mockTask);
       expect(model.findById).toHaveBeenCalled();
+    });
+  });
+
+  describe('create', () => {
+    it('should be defined', async () => {
+      expect(service.create).toBeDefined();
+    });
+
+    it('should be a function', () => {
+      expect(typeof service.create).toBe('function');
+    })
+  });
+
+  describe('update', () => {
+    it('should update and return a task', async () => {
+      const updateTaskDto = { title: 'Updated Task', status: 'completed' };
+      const mockUpdatedTask = {
+        _id: '507f1f77bcf86cd799439011',
+        title: 'Updated Task',
+        status: 'completed',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      jest.spyOn(model, 'findByIdAndUpdate').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce(mockUpdatedTask),
+      } as any);
+
+      const result = await service.update(
+        '507f1f77bcf86cd799439011',
+        updateTaskDto,
+      );
+
+      expect(result).toEqual(mockUpdatedTask);
+      expect(model.findByIdAndUpdate).toHaveBeenCalledWith(
+        '507f1f77bcf86cd799439011',
+        updateTaskDto,
+        { new: true },
+      );
+    });
+  });
+
+  describe('remove', () => {
+    it('should delete and return a task', async () => {
+      const mockDeletedTask = {
+        _id: '507f1f77bcf86cd799439011',
+        title: 'Deleted Task',
+        status: 'pending',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      jest.spyOn(model, 'findByIdAndDelete').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce(mockDeletedTask),
+      } as any);
+
+      const result = await service.remove('507f1f77bcf86cd799439011');
+
+      expect(result).toEqual(mockDeletedTask);
+      expect(model.findByIdAndDelete).toHaveBeenCalledWith('507f1f77bcf86cd799439011');
     });
   });
 });

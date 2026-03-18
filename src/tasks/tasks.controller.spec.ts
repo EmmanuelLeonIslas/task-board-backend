@@ -101,7 +101,7 @@ describe('TasksController', () => {
   describe('update', () => {
     it('should update and return a task', async () => {
       const taskId = '507f1f77bcf86cd799439011';
-      const updatedTaskDto = { status: 'completed' };
+      const updateTaskDto = { status: 'completed' };
       const mockUpdatedTask = {
         _id: taskId,
         title: 'Test Task',
@@ -112,10 +112,51 @@ describe('TasksController', () => {
 
       mockTasksService.update.mockResolvedValue(mockUpdatedTask);
 
-      const result = await controller.update(taskId, updatedTaskDto);
+      const result = await controller.update(taskId, updateTaskDto);
 
       expect(result).toEqual(mockUpdatedTask);
-      expect(service.update).toHaveBeenCalledWith(taskId, updatedTaskDto);
+      expect(service.update).toHaveBeenCalledWith(taskId, updateTaskDto);
+    });
+  });
+
+  describe('update', () => {
+    it('should update and return a task', async () => {
+      const taskId = '507f1f77bcf86cd799439011';
+      const updateTaskDto = { status: 'completed' };
+      const mockUpdatedTask = {
+        _id: taskId,
+        title: 'Test Task',
+        status: 'complete',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      mockTasksService.update.mockResolvedValue(mockUpdatedTask);
+
+      const result = await controller.update(taskId, updateTaskDto);
+
+      expect(result).toEqual(mockUpdatedTask);
+      expect(service.update).toHaveBeenCalledWith(taskId, updateTaskDto);
+    });
+  });
+
+  describe('remove', () => {
+    it('should delete and return a task', async () => {
+      const taskId = '507f1f77bcf86cd799439011';
+      const mockDeletedTask = {
+        _id: taskId,
+        title: 'Deleted Task',
+        status: 'pending',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      mockTasksService.remove.mockResolvedValue(mockDeletedTask);
+
+      const result = await controller.remove(taskId);
+
+      expect(result).toEqual(mockDeletedTask);
+      expect(service.remove).toHaveBeenCalledWith(taskId);
     });
   });
 });
