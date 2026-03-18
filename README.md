@@ -47,7 +47,7 @@ RESTful API built with NestJS, MongoDB, and TypeScript for the Task Board applic
 
 ## Related Projects
 
-- [Task Board Frontend](https://github.com/YOUR-USERNAME/task-board-frontend) - Vite + TypeScript + Tailwind
+- [Task Board Frontend](https://task-board-eight-olive.vercel.app) - Vite + TypeScript + Tailwind
 
 ## Contributing
 
