@@ -16,7 +16,7 @@ import { User, UserSchema } from './schemas/user.schema';
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn: config.get<string>('JWT_EXPIRES'),
+          expiresIn: '7d',
         },
       }),
     }),
