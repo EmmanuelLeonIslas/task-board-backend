@@ -4,34 +4,45 @@ import { Model } from 'mongoose';
 import { Task, TaskDocument } from './schemas/task.schema';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { UserDocument } from '../auth/schemas/user.schema';
 
 @Injectable()
 export class TasksService {
-    constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
+  constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
 
-    async create(CreateTaskDto: CreateTaskDto): Promise<Task> {
-        const createdTask = new this.taskModel({ 
-            ...CreateTaskDto,
-            status: 'pending',
-        });
-        return createdTask.save();
-    }
+  async create(
+    createTaskDto: CreateTaskDto,
+    user: UserDocument,
+  ): Promise<Task> {
+    const createdTask = new this.taskModel({
+      ...createTaskDto,
+      status: 'pending',
+      user: user._id,
+    });
+    return createdTask.save();
+  }
 
-    async findAll(): Promise<Task[]> {
-        return this.taskModel.find().exec();
-    }
+  async findAll(user: UserDocument): Promise<Task[]> {
+    return this.taskModel.find({ user: user._id } as any).exec();
+  }
 
-    async findOne(id: string): Promise<Task | null> {
-        return this.taskModel.findById(id).exec();
-    }
+  async findOne(id: string, user: UserDocument): Promise<Task | null> {
+    return this.taskModel.findById({ _id: id, user: user._id }).exec();
+  }
 
-    async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task | null> {
-        return this.taskModel
-            .findByIdAndUpdate(id, updateTaskDto, { new: true })
-            .exec();
-    }
+  async update(
+    id: string,
+    updateTaskDto: UpdateTaskDto,
+    user: UserDocument,
+  ): Promise<Task | null> {
+    return this.taskModel
+      .findByIdAndUpdate({ _id: id, user: user._id }, updateTaskDto, {
+        new: true,
+      })
+      .exec();
+  }
 
-    async remove(id: string): Promise<Task | null> {
-        return this.taskModel.findByIdAndDelete(id).exec();
-    }
+  async remove(id: string, user: UserDocument): Promise<Task | null> {
+    return this.taskModel.findByIdAndDelete({ _id: id, user: user._id }).exec();
+  }
 }
