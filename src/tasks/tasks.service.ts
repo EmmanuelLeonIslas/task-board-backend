@@ -23,11 +23,11 @@ export class TasksService {
   }
 
   async findAll(user: UserDocument): Promise<Task[]> {
-    return this.taskModel.find({ user: user._id } as any).exec();
+    return this.taskModel.find({ user: user._id }).exec();
   }
 
   async findOne(id: string, user: UserDocument): Promise<Task | null> {
-    return this.taskModel.findById({ _id: id, user: user._id }).exec();
+    return this.taskModel.findOne({ _id: id, user: user._id }).exec();
   }
 
   async update(
@@ -36,13 +36,13 @@ export class TasksService {
     user: UserDocument,
   ): Promise<Task | null> {
     return this.taskModel
-      .findByIdAndUpdate({ _id: id, user: user._id }, updateTaskDto, {
+      .findOneAndUpdate({ _id: id, user: user._id }, updateTaskDto, {
         new: true,
       })
       .exec();
   }
 
   async remove(id: string, user: UserDocument): Promise<Task | null> {
-    return this.taskModel.findByIdAndDelete({ _id: id, user: user._id }).exec();
+    return this.taskModel.findOneAndDelete({ _id: id, user: user._id }).exec();
   }
 }
