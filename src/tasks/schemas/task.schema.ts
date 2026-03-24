@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import mongoose from 'mongoose';
+import { Types } from 'mongoose';
 import { User } from '../../auth/schemas/user.schema';
 
 export type TaskDocument = HydratedDocument<Task>;
@@ -13,8 +13,8 @@ export class Task {
   @Prop({ required: true, enum: ['pending', 'in_progress', 'completed'] })
   status: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-  user: User;
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: Types.ObjectId | User;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);
