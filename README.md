@@ -47,7 +47,7 @@ RESTful API built with NestJS, MongoDB, and TypeScript for the Task Board applic
 
 ## Related Projects
 
-- [Task Board Frontend](https://task-board-eight-olive.vercel.app) - Vite + TypeScript + Tailwind
+- [Task Board Frontend](https://github.com/EmmanuelLeonIslas/task-board) - Vite + TypeScript + Tailwind
 
 ## Contributing
 
@@ -59,7 +59,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Author
 
-Your Name
+Emmanuel León Islas
 - GitHub: [@Emmanuel León Islas](https://github.com/EmmanuelLeonIslas)
 
 ---
