@@ -13,15 +13,33 @@ RESTful API built with NestJS, MongoDB, and TypeScript for the Task Board applic
 
 ## API Endpoints
 
+### Authentication
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------| ------------- |
+| POST | `/auth/signup` | Register a new user | No |
+| POST | `/auth/signin` | Login and get JWT token | No |
+
 ### Tasks
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/tasks` | Get all tasks |
-| GET | `/tasks/:id` | Get a single task |
-| POST | `/tasks` | Create a new task |
-| PATCH | `/tasks/:id` | Update a task |
-| DELETE | `/tasks/:id` | Delete a task |
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------| ------------- |
+| GET | `/tasks` | Get all user's tasks | Yes |
+| GET | `/tasks/:id` | Get a single task | Yes |
+| POST | `/tasks` | Create a new task | Yes |
+| PATCH | `/tasks/:id` | Update a task | Yes |
+| DELETE | `/tasks/:id` | Delete a task | Yes |
+
+## 🛠️ Tech Stack
+
+- **Framework:** NestJS 11.0
+- **Language:** TypeScript 5.7
+- **Database:** MongoDB Atlas
+- **ODM:** Mongoose 9.2
+- **Authentication:** JWT (JSON Web Tokens)
+- **Password Hashing:** bcrypt
+- **Validation:** class-validator & class-transformer
+- **Deployment:** Railway
 
 ## 📊 API Response Format
 
@@ -42,6 +60,14 @@ RESTful API built with NestJS, MongoDB, and TypeScript for the Task Board applic
   "statusCode": 400,
   "message": ["Title cannot be empty"],
   "error": "Bad Request"
+}
+```
+
+**Unauthorized Response:**
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
 }
 ```
 
